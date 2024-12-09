@@ -5,7 +5,49 @@
     <title>Enter Employee Information</title>
     <link rel="stylesheet" type="text/css" href="css/style2.css">
     <script type="text/javascript">
-        // Validate the form input
+        // List of valid programming languages for the dropdown
+        const validProgrammingLanguages = [
+            "Java", "C#", "C++", "Python", "JavaScript", "Ruby", "Go", "Swift", "PHP", "TypeScript",
+            "Kotlin", "Rust", "SQL", "Scala", "Perl", "R", "Objective-C", "Lua", "MATLAB", "Haskell",
+            "Assembly", "Dart", "Elixir", "Groovy", "Clojure", "F#", "VHDL", "Verilog", "Erlang", "Julia",
+            "Forth", "COBOL", "Fortran", "ActionScript", "Hack", "Shell", "Tcl", "Prolog", "OCaml", "Smalltalk",
+            "PowerShell", "Awk", "PostScript", "Simula", "Ada", "Chapel", "Nim", "Crystal", "Zig", "Vala",
+            "GDScript", "Racket", "Xojo", "OCaml", "Solidity", "Vimscript", "Mercury", "Eiffel", "AutoHotkey",
+            "Delphi", "Fantom", "Lisp", "OpenCL", "CUDA", "Turing", "SAS", "LabVIEW", "Logo", "NATURAL", "ML",
+            "ABAP", "Vala", "Io", "Wolfram", "Verilog", "ActionScript", "PureScript", "Algol", "Curl"
+        ];
+
+        // Dynamically add language fields with dropdown list
+        function addLanguageFields() {
+            let numLanguages = document.getElementsByName("numLanguages")[0].value;
+            let languageFieldsDiv = document.getElementById("languageFields");
+
+            languageFieldsDiv.innerHTML = ''; // Clear previous fields
+
+            for (let i = 1; i <= numLanguages; i++) {
+                // Create language selection dropdown
+                let languageDropdown = '<label for="languageName_' + i + '">Language ' + i + ':</label>';
+                languageDropdown += '<select id="languageName_' + i + '" name="languageName_' + i + '" required>';
+                languageDropdown += '<option value="" disabled selected>Select Language</option>';
+
+                // Add valid programming languages as options
+                for (let language of validProgrammingLanguages) {
+                    languageDropdown += `<option value="${language}">${language}</option>`;
+                }
+                languageDropdown += '</select>';
+
+                // Create score input field
+                let languageScoreField = `
+                    <label for="languageScore_${i}">Score (Out of 100):</label>
+                    <input type="number" id="languageScore_${i}" name="languageScore_${i}" min="0" max="100" required><br>
+                `;
+
+                // Append the dropdown and score input fields
+                languageFieldsDiv.innerHTML += languageDropdown + languageScoreField;
+            }
+        }
+
+        // Validate form inputs
         function validateForm() {
             let firstName = document.getElementsByName("firstName")[0].value.trim();
             let lastName = document.getElementsByName("lastName")[0].value.trim();
@@ -38,7 +80,7 @@
             }
 
             if (!/^[a-zA-Z\s]+$/.test(designation)) {
-                errorMessage = "designation must contain only letters and spaces.";
+                errorMessage = "Designation must contain only letters and spaces.";
                 isValid = false;
             }
 
@@ -47,13 +89,13 @@
                 errorMessage = "Number of Known Languages must be at least 1.";
                 isValid = false;
             } else {
-                // Validate Known Languages (dynamic fields)
+                // Validate Known Languages (dropdown selection and score)
                 for (let i = 1; i <= numLanguages; i++) {
-                    let languageName = document.getElementById("languageName_" + i).value.trim();
+                    let languageName = document.getElementById("languageName_" + i).value;
                     let languageScore = document.getElementById("languageScore_" + i).value.trim();
 
                     if (!languageName || !languageScore || isNaN(languageScore) || languageScore < 0 || languageScore > 100) {
-                        errorMessage = `Invalid language entry for Language ${i}. Provide a valid name and score (0-100).`;
+                        errorMessage = `Invalid language entry for Language ${i}. Select a valid language and provide a score (0-100).`;
                         isValid = false;
                         break;
                     }
@@ -71,23 +113,7 @@
             return isValid; // Prevent form submission if invalid
         }
 
-        // Dynamically add language fields
-        function addLanguageFields() {
-            let numLanguages = document.getElementsByName("numLanguages")[0].value;
-            let languageFieldsDiv = document.getElementById("languageFields");
-
-            languageFieldsDiv.innerHTML = ''; // Clear previous fields
-            for (let i = 1; i <= numLanguages; i++) {
-                let languageFieldHTML = `
-                    <label for="languageName_${i}">Language ${i}:</label>
-                    <input type="text" id="languageName_${i}" name="languageName_${i}" required>
-                    <label for="languageScore_${i}">Score (Out of 100):</label>
-                    <input type="number" id="languageScore_${i}" name="languageScore_${i}" min="0" max="100" required><br>
-                `;
-                languageFieldsDiv.innerHTML += languageFieldHTML;
-            }
-        }
-
+        // Update the hidden languages field with selected language names and scores
         function updateHiddenLanguagesField() {
             let numLanguages = document.getElementsByName("numLanguages")[0].value;
             let languages = [];
@@ -112,18 +138,11 @@
             // Debugging: Log the value of the hidden field to check if it's populated
             console.log("Languages Hidden Field:", document.getElementById("languages").value);
         }
-
-
-
-
     </script>
 </head>
 <body>
 <div class="container">
     <h2>Enter Employee Information</h2>
-    <%
-        List<String> errorMessages = (List<String>) request.getAttribute("errorMessages");
-    %>
     <form action="EmployeeServlet" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="action" value="addEmployee">
 
@@ -161,19 +180,6 @@
             </div>
         </fieldset>
     </form>
-    <%
-        if (errorMessages != null && !errorMessages.isEmpty()) {
-    %>
-    <div class="error-messages">
-        <ul>
-            <% for (String errorMessage : errorMessages) { %>
-            <li><%= errorMessage %></li>
-            <% } %>
-        </ul>
-    </div>
-    <%
-        }
-    %>
 </div>
 </body>
 </html>

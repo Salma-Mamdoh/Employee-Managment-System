@@ -28,4 +28,19 @@
     "languageName" : "C++",
     "scoreOutof100" : 100
   } ]
+}, {
+  "firstName" : "Ahmed",
+  "lastName" : "Mohamed",
+  "employeeID" : "8000",
+  "designation" : "Data Engineer",
+  "languages" : [ {
+    "languageName" : "Go",
+    "scoreOutof100" : 50
+  }, {
+    "languageName" : "SQL",
+    "scoreOutof100" : 90
+  }, {
+    "languageName" : "Java",
+    "scoreOutof100" : 80
+  } ]
 } ]

@@ -1,53 +1,51 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Arrays" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Search for Employee</title>
+    <title>Search for Employee by Programming Languages</title>
     <link rel="stylesheet" type="text/css" href="css/style2.css">
-    <script>
-        // JavaScript to toggle input fields based on selected search type
-        function toggleSearchField() {
-            // Hide all fields initially
-            document.querySelectorAll('.searchField').forEach(field => field.style.display = 'none');
-
-            // Get the selected search type
-            var searchType = document.querySelector('input[name="searchType"]:checked').value;
-
-            // Show the corresponding field
-            document.getElementById("searchBy" + searchType.charAt(0).toUpperCase() + searchType.slice(1)).style.display = 'block';
-        }
-    </script>
 </head>
 <body>
 <div class="container">
-    <h2>Search for Employee</h2>
+    <h2>Search for Employees by Programming Languages</h2>
     <form action="EmployeeServlet" method="post">
-        <input type="hidden" name="action" value="search">
+        <input type="hidden" name="action" value="searchByLanguages">
 
-        <!-- Radio buttons to select search type -->
-        <label>
-            <input type="radio" name="searchType" value="employeeID" onclick="toggleSearchField()" checked>
-            Search by Employee ID
-        </label>
-        <label>
-            <input type="radio" name="searchType" value="designation" onclick="toggleSearchField()">
-            Search by Designation
-        </label>
-
-        <!-- Input fields for each search type -->
-        <div id="searchByEmployeeID" class="searchField">
-            <label for="employeeID">Employee ID:</label>
-            <input type="text" id="employeeID" name="employeeID">
+        <!-- Programming Languages Dropdown (Single selection) -->
+        <div>
+            <label for="programmingLanguages">Select Programming Language:</label>
+            <select id="programmingLanguages" name="languages" required>
+                <%
+                    List<String> validProgrammingLanguages = Arrays.asList(
+                            "Java", "C#", "C++", "Python", "JavaScript", "Ruby", "Go", "Swift", "PHP", "TypeScript",
+                            "Kotlin", "Rust", "SQL", "Scala", "Perl", "R", "Objective-C", "Lua", "MATLAB", "Haskell",
+                            "Assembly", "Dart", "Elixir", "Groovy", "Clojure", "F#", "VHDL", "Verilog", "Erlang", "Julia",
+                            "Forth", "COBOL", "Fortran", "ActionScript", "Hack", "Shell", "Tcl", "Prolog", "OCaml", "Smalltalk",
+                            "PowerShell", "Awk", "PostScript", "Simula", "Ada", "Chapel", "Nim", "Crystal", "Zig", "Vala",
+                            "GDScript", "Racket", "Xojo", "OCaml", "Solidity", "Vimscript", "Mercury", "Eiffel", "AutoHotkey",
+                            "Delphi", "Fantom", "Lisp", "OpenCL", "CUDA", "Turing", "SAS", "LabVIEW", "Logo", "NATURAL", "ML",
+                            "ABAP", "Vala", "Io", "Wolfram", "Verilog", "ActionScript", "PureScript", "Algol", "Curl"
+                    );
+                    for (String language : validProgrammingLanguages) {
+                %>
+                <option value="<%= language %>"><%= language %></option>
+                <% } %>
+            </select>
         </div>
 
-        <div id="searchByDesignation" class="searchField" style="display: none;">
-            <label for="designation">Designation:</label>
-            <input type="text" id="designation" name="designation">
+        <!-- Minimum Score Input -->
+        <div>
+            <label for="minimumScore">Minimum Score:</label>
+            <input type="number" id="minimumScore" name="minimumScore" required>
         </div>
 
-        <!-- Submit button -->
-        <button type="submit" class="button">Search</button>
+        <!-- Form Buttons -->
+        <div class="form-buttons">
+            <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
+            <button type="submit" class="submit-button">Search</button>
+        </div>
     </form>
-    <a href="menu.jsp" class="button">Back to Menu</a>
 </div>
 </body>
 </html>

@@ -54,6 +54,23 @@ public class Helper {
         return result;
     }
 
+    public List<Employee> findEmployeesByLanguagesAndScore(String language, int minimumScore) {
+        List<Employee> result = new ArrayList<>();
+
+
+        // Filter employees from your database or data source
+        for (Employee employee : employeeList) {
+            for(KnownLanguage emlanguage: employee.getKnownLanguages()){
+                if ((emlanguage.getLanguageName().equals(language)) && (emlanguage.getScoreOutof100()>=minimumScore) ){
+                    result.add(employee);
+                    break;
+                }
+            }
+
+        }
+        return result;
+    }
+
     public boolean isDuplicateEmployeeID(String employeeID) {
         for (Employee employee : employeeList) {
             if (employee.getEmployeeID().equals(employeeID.trim())) {

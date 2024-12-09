@@ -53,12 +53,14 @@ public class EmployeeServlet extends HttpServlet {
         } else if ("search".equals(action)) {
             String searchType = request.getParameter("searchType");
             if ("employeeID".equals(searchType)) {
-                searchStudentEmployeeID(request, response);
+                searchEmployeeID(request, response);
             } else if ("designation".equals(searchType)) {
-                searchStudentDesignation(request, response);
+                searchEmployeeDesignation(request, response);
             }
         } else if ("delete".equals(action)) {
             deleteEmployee(request, response);
+        }else if("searchByLanguages".equals(action)){
+            searchlanguages(request,response);
         }
     }
 
@@ -108,7 +110,7 @@ public class EmployeeServlet extends HttpServlet {
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
-    private void searchStudentEmployeeID(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void searchEmployeeID(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String employeeID = request.getParameter("employeeID");
         List<Employee> employee = helper.findEmployeesByEmployeeID(employeeID);
         request.setAttribute("employees", employee);
@@ -116,9 +118,18 @@ public class EmployeeServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void searchStudentDesignation(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void searchEmployeeDesignation(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String designation = request.getParameter("designation");
         List<Employee> Employees = helper.findEmployeesByDesignation(designation);
+        request.setAttribute("employees", Employees);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("EmployeeDetail.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void searchlanguages(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String languages = request.getParameter("languages");
+        int min_Score= Integer.parseInt(request.getParameter("minimumScore"));
+        List<Employee> Employees = helper.findEmployeesByLanguagesAndScore(languages,min_Score);
         request.setAttribute("employees", Employees);
         RequestDispatcher dispatcher = request.getRequestDispatcher("EmployeeDetail.jsp");
         dispatcher.forward(request, response);
