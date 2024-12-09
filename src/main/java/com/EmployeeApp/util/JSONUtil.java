@@ -16,23 +16,26 @@ public class JSONUtil {
     // Path to the JSON file
     private static final String FILE_PATH = "C:\\Users\\E.J.S\\IdeaProjects\\SOA-Assignment3-Web\\src\\main\\resources\\Employees.json";
 
-    // Add an employee to the JSON file
-    public static void addEmployeeToJSON(Employee employee) {
-        try {
-            // Read existing employees
-            List<Employee> employeesJSON = readEmployeesAsJSON();
+    public static void addEmployeeToJSON(Employee employee) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jsonFile = new File(FILE_PATH);
 
-            // Add the new employee to the list of Employee objects
-            employeesJSON.add(employee);
+        List<Employee> employees = new ArrayList<>();
 
-            // Write the updated list of employees back to the JSON file
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), employeesJSON);
-        } catch (IOException e) {
-            System.err.println("Error while adding employee to JSON: " + e.getMessage());
-            e.printStackTrace();
+        if (jsonFile.exists() && jsonFile.length() > 0) {
+            employees = objectMapper.readValue(
+                    jsonFile,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, Employee.class)
+            );
         }
+
+        employees.add(employee);
+
+        // Write back to JSON
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, employees);
     }
+
+
 
     // Read employees from the JSON file and return a list of Employee objects
     public static List<Employee> readEmployeesAsJSON() {
@@ -48,8 +51,8 @@ public class JSONUtil {
             // Read the JSON file and map it to an array of Employee objects
             Employee[] employeesArray = objectMapper.readValue(file, Employee[].class);
 
-            // Convert the array to a List and return it
-            return Arrays.asList(employeesArray);
+            // Convert the array to a modifiable List (ArrayList) and return it
+            return new ArrayList<>(Arrays.asList(employeesArray));
         } catch (IOException e) {
             System.err.println("Error while reading employees from JSON: " + e.getMessage());
             e.printStackTrace();
@@ -59,8 +62,9 @@ public class JSONUtil {
         }
     }
 
+
     // Helper function to check if the file exists, if not create it
-    private static void checkAndCreateFileIfNeeded() {
+    public static void checkAndCreateFileIfNeeded() {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             try {

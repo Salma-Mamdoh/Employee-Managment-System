@@ -1,56 +1,82 @@
 package com.EmployeeApp.servlet;
 
+import com.EmployeeApp.Models.Helper;
+import com.EmployeeApp.Models.KnownLanguage;
 import com.EmployeeApp.Models.Employee;
 import com.EmployeeApp.util.JSONUtil;
-import com.EmployeeApp.Models.Helper;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import java.io.*;
-import java.util.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 public class EmployeeServlet extends HttpServlet {
 
-    private Helper helper;
+    private final Helper helper = new Helper(); // Instance of Helper class
+
+    private static final String FILE_PATH = "C:\\Users\\E.J.S\\IdeaProjects\\SOA-Assignment3-Web\\src\\main\\resources\\Employees.json";
+
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        // Initialize the Helper object
-        helper = new Helper();
+        try {
+            File xmlFile = new File(FILE_PATH);
+            if (!xmlFile.exists()) {
+                JSONUtil.checkAndCreateFileIfNeeded();
+            }
+            List<Employee> employees = JSONUtil.readEmployeesAsJSON();
+            helper.setEmployees(employees);
+            //System.out.println(helper.getEmployees());
+        } catch (Exception e) {
+            throw new ServletException("Error reading student data from XML.", e);
+        }
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Capture form data for employee
+        // Extract input parameters from the request
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String employeeID = request.getParameter("employeeID");
         String designation = request.getParameter("designation");
+        String languagesJson = request.getParameter("languages"); // Languages in JSON format
 
-        // Parse the hidden languages field from JSON string to Map
-        String languagesJson = request.getParameter("languages");
+        // Parse the languages JSON to a List of KnownLanguage objects
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Integer> knownLanguages = objectMapper.readValue(languagesJson, Map.class);
+        List<KnownLanguage> knownLanguages = objectMapper.readValue(
+                languagesJson,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, KnownLanguage.class)
+        );
+        //System.out.println("hereeeeeeee");
+        // Validate the employee data using the Helper class
+        List<String> validationErrors = helper.validateEmployee(employeeID, firstName, lastName, designation, knownLanguages, false);
 
-        // Validate the employee data
-        //List<String> validationErrors = helper.validateEmployee(employeeID, firstName, lastName, designation, knownLanguages, false);
-/*
+        // If there are validation errors, set them in the request and forward back to the JSP page
         if (!validationErrors.isEmpty()) {
-            System.out.println("hereeeeeeee");
-            // If there are validation errors, return a bad request response with errors
-            request.setAttribute("errors", validationErrors);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.setAttribute("errorMessages", validationErrors);
+            request.getRequestDispatcher("addEmployee.jsp").forward(request, response);
             return;
         }
-*/
-        // If validation passed, create the Employee object
-        Employee newEmployee = new Employee(firstName, lastName, employeeID, designation, knownLanguages);
 
-        // Add employee to JSON file
-        JSONUtil.addEmployeeToJSON(newEmployee);
+        // If validation passes, create a new Employee object
+        Employee employee = new Employee();
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setEmployeeID(employeeID);
+        employee.setDesignation(designation);
+        employee.setKnownLanguages(knownLanguages);
 
-        // Redirect or forward to index.jsp with success message
+        // Add the employee to the system using Helper
+        helper.addEmployee(employee);
+        //System.out.println("hereeeeeeeee");
+        // Save the employee to a JSON file (persistent storage)
+        JSONUtil.addEmployeeToJSON(employee);
+
+        // Set a success message and forward to the success page
         request.setAttribute("success", "Employee added successfully!");
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }

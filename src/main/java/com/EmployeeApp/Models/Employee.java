@@ -1,8 +1,10 @@
 package com.EmployeeApp.Models;
-
+import com.EmployeeApp.Models.KnownLanguage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,18 +23,17 @@ public class Employee {
     private String designation;
 
     @JsonProperty("languages")
-    private Map<String, Integer> knownLanguages;
-
+    private List<KnownLanguage> KnownLanguages;
 
     public Employee() {}
 
     // Parameterized constructor
-    public Employee(String firstName, String lastName, String employeeID, String designation, Map<String, Integer> knownLanguages) {
+    public Employee(String firstName, String lastName, String employeeID, String designation, List<KnownLanguage> knownLanguages) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeID = employeeID;
         this.designation = designation;
-        this.knownLanguages = knownLanguages;
+        this.KnownLanguages = knownLanguages;
     }
 
     // Getters and setters
@@ -68,11 +69,12 @@ public class Employee {
         this.designation = designation;
     }
 
-    public Map<String, Integer> getKnownLanguages() {
-        return knownLanguages;
+    @JsonIgnore
+    public List<KnownLanguage> getKnownLanguages() {
+        return KnownLanguages;
     }
 
-    public void setKnownLanguages(Map<String, Integer> knownLanguages) {
-        this.knownLanguages = knownLanguages;
+    public void setKnownLanguages(List<KnownLanguage> knownLanguages) {
+        this.KnownLanguages = knownLanguages;
     }
 }

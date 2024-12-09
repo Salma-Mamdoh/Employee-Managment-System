@@ -1,3 +1,4 @@
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -33,6 +34,11 @@
             }
             if (!/^[a-zA-Z\s]+$/.test(lastName)) {
                 errorMessage = "Last name must contain only letters and spaces.";
+                isValid = false;
+            }
+
+            if (!/^[a-zA-Z\s]+$/.test(designation)) {
+                errorMessage = "designation must contain only letters and spaces.";
                 isValid = false;
             }
 
@@ -84,7 +90,7 @@
 
         function updateHiddenLanguagesField() {
             let numLanguages = document.getElementsByName("numLanguages")[0].value;
-            let languages = {};
+            let languages = [];
 
             // Collect all language names and scores
             for (let i = 1; i <= numLanguages; i++) {
@@ -92,11 +98,15 @@
                 let languageScore = document.getElementById("languageScore_" + i).value.trim();
 
                 if (languageName && languageScore) {
-                    languages[languageName] = parseInt(languageScore);
+                    // Create a language object with name and score
+                    languages.push({
+                        languageName: languageName, // Match the backend field name
+                        scoreOutof100: parseInt(languageScore) // Match the backend field name
+                    });
                 }
             }
 
-            // Serialize the languages map into the hidden input field
+            // Serialize the languages array into the hidden input field
             document.getElementById("languages").value = JSON.stringify(languages);
 
             // Debugging: Log the value of the hidden field to check if it's populated
@@ -104,11 +114,16 @@
         }
 
 
+
+
     </script>
 </head>
 <body>
 <div class="container">
     <h2>Enter Employee Information</h2>
+    <%
+        List<String> errorMessages = (List<String>) request.getAttribute("errorMessages");
+    %>
     <form action="EmployeeServlet" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="action" value="addEmployee">
 
@@ -136,9 +151,28 @@
 
             <div id="error" style="color: red;"></div>
 
-            <input type="submit" value="Submit">
+            <!-- Buttons Section -->
+            <div class="form-buttons">
+                <!-- Back to Menu Button -->
+                <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-button">Submit</button>
         </fieldset>
     </form>
+    <%
+        if (errorMessages != null && !errorMessages.isEmpty()) {
+    %>
+    <div class="error-messages">
+        <ul>
+            <% for (String errorMessage : errorMessages) { %>
+            <li><%= errorMessage %></li>
+            <% } %>
+        </ul>
+    </div>
+    <%
+        }
+    %>
 </div>
 </body>
 </html>

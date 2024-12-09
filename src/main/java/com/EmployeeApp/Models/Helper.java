@@ -4,26 +4,26 @@ import java.util.*;
 
 public class Helper {
 
-    private List<Employee> employees;
+    private List<Employee> employeeList ;
 
     public Helper() {
-        this.employees = new ArrayList<>();
+        this.employeeList = new ArrayList<>();
     }
 
     public List<Employee> getEmployees() {
-        return employees;
+        return employeeList;
     }
 
     public void setEmployees(List<Employee> employeeList) {
-        this.employees = employeeList;
+        this.employeeList = employeeList;
     }
 
     public void addEmployee(Employee employee) {
-        this.employees.add(employee);
+        this.employeeList.add(employee);
     }
 
     public boolean removeEmployee(String employeeID) {
-        Iterator<Employee> iterator = employees.iterator();
+        Iterator<Employee> iterator = employeeList.iterator();
         while (iterator.hasNext()) {
             Employee employee = iterator.next();
             if (employee.getEmployeeID().equals(employeeID)) {
@@ -36,28 +36,8 @@ public class Helper {
 
     public List<Employee> findEmployeesByEmployeeID(String employeeID) {
         List<Employee> result = new ArrayList<>();
-        for (Employee employee : employees) {
+        for (Employee employee : employeeList) {
             if (employee.getEmployeeID().equalsIgnoreCase(employeeID)) {
-                result.add(employee);
-            }
-        }
-        return result;
-    }
-
-    public List<Employee> findEmployeesByFirstName(String firstName) {
-        List<Employee> result = new ArrayList<>();
-        for (Employee employee : employees) {
-            if (employee.getFirstName().equalsIgnoreCase(firstName)) {
-                result.add(employee);
-            }
-        }
-        return result;
-    }
-
-    public List<Employee> findEmployeesByLastName(String lastName) {
-        List<Employee> result = new ArrayList<>();
-        for (Employee employee : employees) {
-            if (employee.getLastName().equalsIgnoreCase(lastName)) {
                 result.add(employee);
             }
         }
@@ -66,7 +46,7 @@ public class Helper {
 
     public List<Employee> findEmployeesByDesignation(String designation) {
         List<Employee> result = new ArrayList<>();
-        for (Employee employee : employees) {
+        for (Employee employee :employeeList) {
             if (employee.getDesignation().equalsIgnoreCase(designation)) {
                 result.add(employee);
             }
@@ -75,8 +55,8 @@ public class Helper {
     }
 
     public boolean isDuplicateEmployeeID(String employeeID) {
-        for (Employee employee : employees) {
-            if (employee.getEmployeeID().equals(employeeID)) {
+        for (Employee employee : employeeList) {
+            if (employee.getEmployeeID().equals(employeeID.trim())) {
                 return true; // Duplicate ID found
             }
         }
@@ -115,7 +95,7 @@ public class Helper {
     }
 
     public List<String> validateEmployee(String employeeID, String firstName, String lastName,
-                                         String designation, Map<String, Integer> knownLanguages, boolean isUpdate) {
+                                         String designation, List<KnownLanguage> knownLanguages, boolean isUpdate) {
         List<String> errorMessages = new ArrayList<>();
 
         // Validate Employee ID
@@ -141,14 +121,14 @@ public class Helper {
             errorMessages.add("Designation is required.");
         }
 
-        // Validate known languages (Map)
+        // Validate known languages
         if (knownLanguages == null || knownLanguages.isEmpty()) {
             errorMessages.add("At least one known language must be provided.");
         } else {
             // Validate each language and its score
-            for (Map.Entry<String, Integer> entry : knownLanguages.entrySet()) {
-                String languageName = entry.getKey();
-                Integer score = entry.getValue();
+            for (KnownLanguage language : knownLanguages) {
+                String languageName = language.getLanguageName();
+                int score = language.getScoreOutof100();
 
                 // Validate language name
                 if (!isValidLanguageName(languageName)) {
@@ -164,5 +144,4 @@ public class Helper {
 
         return errorMessages;
     }
-
 }
