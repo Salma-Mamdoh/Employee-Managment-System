@@ -61,6 +61,21 @@ public class EmployeeServlet extends HttpServlet {
             deleteEmployee(request, response);
         }else if("searchByLanguages".equals(action)){
             searchlanguages(request,response);
+        }else if ("update".equals(action)) {
+            List<Employee> employees = helper.getEmployees();
+
+            request.setAttribute("employees", employees);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("updateEmployee.jsp");
+            dispatcher.forward(request, response);
+        }
+
+        else if ("updateEmployee".equals(action)) {
+            try {
+                updateEmployee(request, response);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -173,5 +188,42 @@ public class EmployeeServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    private void updateEmployee(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Extract input parameters from the request
+        String employeeID = request.getParameter("employeeID");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String designation = request.getParameter("designation");
+        String languagesJson = request.getParameter("languages"); // Languages in JSON format
 
+        // Parse the languages JSON to a List of KnownLanguage objects
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<KnownLanguage> knownLanguages = objectMapper.readValue(
+                languagesJson,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, KnownLanguage.class)
+        );
+
+        List<String> validationErrors = helper.validateEmployee(employeeID, firstName, lastName, designation, knownLanguages, true);
+
+        // If there are validation errors, set them in the request and forward back to the JSP page
+        if (!validationErrors.isEmpty()) {
+            request.setAttribute("errorMessages", validationErrors);
+            request.getRequestDispatcher("updateEmployee.jsp").forward(request, response);
+            return;
+        }
+
+        helper.removeEmployee(employeeID);
+        Employee employee = new Employee();
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setEmployeeID(employeeID);
+        employee.setDesignation(designation);
+        employee.setKnownLanguages(knownLanguages);
+
+        // Add the employee to the system using Helper
+        helper.addEmployee(employee);
+        JSONUtil.saveEmployeesToJSON(helper.getEmployees());
+        request.setAttribute("success", "Employee added successfully!");
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
 }

@@ -1,13 +1,4 @@
 [ {
-  "firstName" : "Roaa",
-  "lastName" : "Talat",
-  "employeeID" : "2000",
-  "designation" : "Developer",
-  "languages" : [ {
-    "languageName" : "Python",
-    "scoreOutof100" : 80
-  } ]
-}, {
   "firstName" : "Salma",
   "lastName" : "Sabry",
   "employeeID" : "3000",
@@ -32,7 +23,7 @@
   "firstName" : "Ahmed",
   "lastName" : "Mohamed",
   "employeeID" : "8000",
-  "designation" : "Data Engineer",
+  "designation" : "Project Manager",
   "languages" : [ {
     "languageName" : "Go",
     "scoreOutof100" : 50
@@ -41,6 +32,15 @@
     "scoreOutof100" : 90
   }, {
     "languageName" : "Java",
+    "scoreOutof100" : 80
+  } ]
+}, {
+  "firstName" : "Roaa",
+  "lastName" : "Talat",
+  "employeeID" : "2000",
+  "designation" : "Tester",
+  "languages" : [ {
+    "languageName" : "Python",
     "scoreOutof100" : 80
   } ]
 } ]
