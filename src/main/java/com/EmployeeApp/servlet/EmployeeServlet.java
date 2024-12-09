@@ -41,7 +41,10 @@ public class EmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("addEmployee".equals(action)) {
+        if ("retrieveAllEmployees".equals(action)){
+            showEmployees(request,response);
+        }
+        else if ("addEmployee".equals(action)) {
             try {
                 addEmployee(request, response);
             } catch (Exception e) {
@@ -147,6 +150,16 @@ public class EmployeeServlet extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException("Error saving Employees to JSON after deletion: " + e.getMessage(), e);
         }
+    }
+
+    private void showEmployees(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Employee> employees = helper.getEmployees(); // Assuming you have a method to get employees
+
+        // Set the list of employees as a request attribute
+        request.setAttribute("employees", employees);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("EmployeeDetail.jsp");
+        dispatcher.forward(request, response);
     }
 
 

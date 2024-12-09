@@ -158,6 +158,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="submit-button">Submit</button>
+            </div>
         </fieldset>
     </form>
     <%

@@ -6,6 +6,15 @@
 <html>
 <head>
     <title>Employee Details</title>
+    <style>
+        /* Make the employee info scrollable */
+        .employee-info {
+            max-height: 400px; /* Adjust the height as needed */
+            overflow-y: auto;  /* Enable vertical scrolling */
+            border: 1px solid #ddd; /* Optional: Adds a border around the scrollable area */
+            padding: 10px; /* Optional: Adds padding inside the scrollable area */
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -32,7 +41,7 @@
 
             <p><strong>Known Languages and Scores:</strong></p>
             <%
-                // Assuming KnownLanguages is a Map<String, Integer> where key is the language and value is the score
+                // Assuming KnownLanguages is a List<KnownLanguage> where each language has a name and score
                 java.util.List<KnownLanguage> languages = employee.getKnownLanguages();
                 if (languages != null && !languages.isEmpty()) {
                     out.print("<ul>");
@@ -59,6 +68,6 @@
         <!-- Back to Menu Button -->
         <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
     </div>
-    </div>
+</div>
 </body>
 </html>

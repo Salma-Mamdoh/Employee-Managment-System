@@ -10,6 +10,7 @@
 
     <!-- Menu with links styled as buttons -->
     <div class="menu">
+        <a href="RetriveAllEmployee.jsp" class="button">Retrive All Employess</a>
         <a href="addEmployee.jsp" class="button">Add New Employee</a>
         <a href="searchEmployee.jsp" class="button">Search for Employee</a>
         <a href="updateEmployee.jsp" class="button">Update Employee Information</a>
