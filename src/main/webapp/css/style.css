@@ -1,0 +1,91 @@
+body {
+    font-family: 'Poppins', Arial, sans-serif; /* Modern font */
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;  /* Center content horizontally */
+    align-items: center;      /* Center content vertically */
+    height: 100vh;            /* Full viewport height */
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;          /* Slightly narrower for focus */
+    background: #ffffff;
+    padding: 30px;             /* Clean spacing */
+    border-radius: 16px;       /* Subtle rounding */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    text-align: center;        /* Center text alignment */
+    overflow: hidden;          /* Keep contents within bounds */
+}
+
+/* Header Styling */
+h1 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 24px;      /* Adjusted spacing */
+}
+
+h2 {
+    font-size: 20px;
+    color: #6a11cb;           /* Accent color */
+    margin-bottom: 16px;
+}
+
+/* Improved Button Container */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;               /* Consistent spacing between buttons */
+    align-items: center;
+}
+
+/* Button Styling */
+.button {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+    color: white;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 30px;       /* Rounded buttons for modern look */
+    width: 100%;              /* Full width */
+    max-width: 300px;         /* Limit button size */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth hover animation */
+    text-align: center;
+    text-decoration: none;
+}
+
+.button:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb); /* Reverse gradient on hover */
+    transform: translateY(-3px); /* Lift effect */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+/* Footer Text Styling (Optional) */
+.footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Add animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.8s ease-in-out;
+}

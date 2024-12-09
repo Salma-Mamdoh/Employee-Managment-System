@@ -1,0 +1,174 @@
+/* Universal Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif; /* Modern font */
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+}
+
+/* Centralized Container */
+.container {
+    width: 90%;
+    max-width: 900px; /* Slightly larger for internal pages */
+    background: #ffffff;
+    padding: 40px; /* More padding for better spacing */
+    border-radius: 16px; /* Subtle rounding */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    overflow: hidden; /* Prevent content overflow */
+    animation: fadeIn 0.8s ease-in-out; /* Smooth fade-in animation */
+}
+
+/* Header Styling */
+h1 {
+    color: #333;
+    font-size: 32px; /* Slightly larger for emphasis */
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    color: #6a11cb; /* Accent color */
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Unified spacing between form elements */
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+input[type="text"], input[type="number"], select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Rounded input fields */
+    font-size: 14px;
+    width: 100%;
+}
+
+/* Buttons */
+.button {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient button */
+    color: white;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 30px; /* Rounded buttons */
+    width: 100%; /* Full width */
+    max-width: 300px; /* Limit button size */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth hover animation */
+    text-align: center;
+    margin: 15px auto;
+    text-decoration: none;
+}
+
+.button:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb); /* Reverse gradient on hover */
+    transform: translateY(-3px); /* Lift effect */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+/* Enhanced Fieldset */
+fieldset {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px; /* More rounded fieldsets */
+}
+
+legend {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
+}
+
+th {
+    background: #6a11cb;
+    color: white;
+    padding: 14px;
+    text-align: left;
+    font-size: 16px;
+}
+
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9; /* Alternating row colors */
+}
+
+tr:hover {
+    background: #f1f1f1; /* Row hover effect */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Info Section */
+.student-info p {
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: #555;
+}
+
+.student-info p strong {
+    color: #34495e;
+}
+
+.student-info p span {
+    color: #7f8c8d;
+}
+
+/* Error Messages */
+.error-message {
+    text-align: center;
+    color: #e74c3c;
+    font-size: 1.2em;
+}
+
+/* Footer */
+.footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}

@@ -1,0 +1,9 @@
+[ {
+  "firstName" : "Salma",
+  "lastName" : "Mamdoh",
+  "employeeID" : "1000",
+  "designation" : "Manager",
+  "languages" : {
+    "Java" : 100
+  }
+} ]
