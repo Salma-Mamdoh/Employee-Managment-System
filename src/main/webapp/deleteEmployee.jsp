@@ -17,12 +17,18 @@
     <form action="EmployeeServlet" method="post">
         <input type="hidden" name="action" value="delete">
 
-        <label for="EmployeeId">Enter Employee ID to Delete:</label>
-        <input type="text" id="studentId" name="studentId" required>
+        <label for="employeeID">Enter Student ID to Delete:</label>
+        <input type="text" id="employeeID" name="employeeID" required>
 
-        <button type="submit" class="button">Delete</button>
+        <!-- Buttons Section -->
+        <div class="form-buttons">
+            <!-- Back to Menu Button -->
+            <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button">Delete</button>
+        </div>
     </form>
-    <a href="index.jsp" class="button">Back to Menu</a>
 </div>
 </body>
 </html>

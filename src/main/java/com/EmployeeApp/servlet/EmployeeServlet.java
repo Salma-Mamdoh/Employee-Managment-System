@@ -54,8 +54,9 @@ public class EmployeeServlet extends HttpServlet {
             } else if ("designation".equals(searchType)) {
                 searchStudentDesignation(request, response);
             }
+        } else if ("delete".equals(action)) {
+            deleteEmployee(request, response);
         }
-
     }
 
 
@@ -119,4 +120,34 @@ public class EmployeeServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("EmployeeDetail.jsp");
         dispatcher.forward(request, response);
     }
+
+    private void deleteEmployee(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String id = request.getParameter("employeeID");
+
+        // Check if ID is missing
+        if (id == null || id.isEmpty()) {
+            request.setAttribute("errorMessages", "Error: Employee ID is missing.");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
+        // Check if employee exists in the list
+        boolean removed = helper.removeEmployee(id);
+        if (!removed) {
+            // Set error message if employee is not found
+            request.setAttribute("errorMessages", "Error: Employee with ID " + id + " not found.");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
+        try {
+            // Save updated employee data to JSON file
+            JSONUtil.saveEmployeesToJSON(helper.getEmployees());
+            response.sendRedirect("index.jsp");
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving Employees to JSON after deletion: " + e.getMessage(), e);
+        }
+    }
+
+
 }

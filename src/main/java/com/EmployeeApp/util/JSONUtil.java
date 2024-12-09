@@ -75,4 +75,37 @@ public class JSONUtil {
             }
         }
     }
+
+    public static void saveEmployeesToJSON(List<Employee> employees) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jsonFile = new File(FILE_PATH);
+
+        // Convert the list of employees to an array node
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+
+        for (Employee employee : employees) {
+            ObjectNode employeeNode = objectMapper.createObjectNode();
+            employeeNode.put("firstName", employee.getFirstName());
+            employeeNode.put("lastName", employee.getLastName());
+            employeeNode.put("employeeID", employee.getEmployeeID());
+            employeeNode.put("designation", employee.getDesignation());
+
+            // Create an array node for languages
+            ArrayNode languagesNode = objectMapper.createArrayNode();
+            employee.getKnownLanguages().forEach(language -> {
+                ObjectNode languageNode = objectMapper.createObjectNode();
+                languageNode.put("languageName", language.getLanguageName());
+                languageNode.put("scoreOutof100", language.getScoreOutof100());
+                languagesNode.add(languageNode);
+            });
+
+            employeeNode.set("languages", languagesNode);
+
+            // Add the employee node to the array node
+            arrayNode.add(employeeNode);
+        }
+
+        // Write the array node to the JSON file, replacing the old content
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile, arrayNode);
+    }
 }
