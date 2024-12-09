@@ -37,4 +37,13 @@
     "languageName" : "C++",
     "scoreOutof100" : 100
   } ]
+}, {
+  "firstName" : "Employee",
+  "lastName" : "Mamdoh",
+  "employeeID" : "6000",
+  "designation" : "Manager",
+  "languages" : [ {
+    "languageName" : "Java",
+    "scoreOutof100" : 50
+  } ]
 } ]

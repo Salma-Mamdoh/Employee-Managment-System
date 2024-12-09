@@ -44,13 +44,16 @@
             <input type="text" id="designation" name="designation">
         </div>
 
-    </form>
-    <div class="form-buttons">
-        <!-- Back to Menu Button -->
-        <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
+        <!-- Form Buttons -->
+        <div class="form-buttons">
 
-        <!-- Submit Button -->
-        <button type="submit" class="submit-button">Search</button>
+            <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button">Search</button>
+
+        </div>
+    </form>
 </div>
 </body>
 </html>

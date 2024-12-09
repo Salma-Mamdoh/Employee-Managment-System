@@ -5,6 +5,7 @@ import com.EmployeeApp.Models.KnownLanguage;
 import com.EmployeeApp.Models.Employee;
 import com.EmployeeApp.util.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +39,28 @@ public class EmployeeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("addEmployee".equals(action)) {
+            try {
+                addEmployee(request, response);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else if ("search".equals(action)) {
+            String searchType = request.getParameter("searchType");
+            if ("employeeID".equals(searchType)) {
+                searchStudentEmployeeID(request, response);
+            } else if ("designation".equals(searchType)) {
+                searchStudentDesignation(request, response);
+            }
+        }
+
+    }
+
+
+
+    private void addEmployee(HttpServletRequest request, HttpServletResponse response) throws Exception{
         // Extract input parameters from the request
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -79,5 +102,21 @@ public class EmployeeServlet extends HttpServlet {
         // Set a success message and forward to the success page
         request.setAttribute("success", "Employee added successfully!");
         request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+
+    private void searchStudentEmployeeID(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String employeeID = request.getParameter("employeeID");
+        List<Employee> employee = helper.findEmployeesByEmployeeID(employeeID);
+        request.setAttribute("employees", employee);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("EmployeeDetail.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void searchStudentDesignation(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String designation = request.getParameter("designation");
+        List<Employee> Employees = helper.findEmployeesByDesignation(designation);
+        request.setAttribute("employees", Employees);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("EmployeeDetail.jsp");
+        dispatcher.forward(request, response);
     }
 }
