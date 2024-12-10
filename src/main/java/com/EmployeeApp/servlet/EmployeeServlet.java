@@ -102,7 +102,7 @@ public class EmployeeServlet extends HttpServlet {
         // If there are validation errors, set them in the request and forward back to the JSP page
         if (!validationErrors.isEmpty()) {
             request.setAttribute("errorMessages", validationErrors);
-            request.getRequestDispatcher("addEmployee.jsp").forward(request, response);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
 

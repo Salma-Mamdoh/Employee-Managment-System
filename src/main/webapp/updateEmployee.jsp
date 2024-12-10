@@ -7,6 +7,57 @@
     <title>Update Employee Information</title>
     <link rel="stylesheet" type="text/css" href="css/style2.css">
     <script>
+        const availableLanguages = [
+            "Java", "C#", "C++", "Python", "JavaScript", "Ruby", "Go", "Swift", "PHP", "TypeScript",
+            "Kotlin", "Rust", "SQL", "Scala", "Perl", "R", "Objective-C", "Lua", "MATLAB", "Haskell",
+            "Assembly", "Dart", "Elixir", "Groovy", "Clojure", "F#", "VHDL", "Verilog", "Erlang", "Julia",
+            "Forth", "COBOL", "Fortran", "ActionScript", "Hack", "Shell", "Tcl", "Prolog", "OCaml", "Smalltalk",
+            "PowerShell", "Awk", "PostScript", "Simula", "Ada", "Chapel", "Nim", "Crystal", "Zig", "Vala",
+            "GDScript", "Racket", "Xojo", "Solidity", "Vimscript", "Mercury", "Eiffel", "AutoHotkey",
+            "Delphi", "Fantom", "Lisp", "OpenCL", "CUDA", "Turing", "SAS", "LabVIEW", "Logo", "NATURAL", "ML",
+            "ABAP", "Io", "Wolfram", "PureScript", "Algol", "Curl"
+        ];
+
+        // Add new language entry to the form
+        function addNewLanguage() {
+            const container = document.getElementById("languages-container");
+
+            const index = container.children.length;
+
+            const entry = document.createElement("div");
+            entry.className = "language-entry";
+            entry.innerHTML = `
+                <label for="languageName${index}">Language:</label>
+                <select name="languageName${index}" id="languageName${index}">
+                    ${availableLanguages.map(lang => `<option value="${lang}">${lang}</option>`).join('')}
+                    <option value="Other">Other (Enter below)</option>
+                </select>
+                <input type="text" name="newLanguageName${index}" id="newLanguageName${index}" placeholder="Enter new language" style="display:none;" />
+
+                <label for="languageScore${index}">Score:</label>
+                <input type="number" name="languageScore${index}" id="languageScore${index}" min="0" max="100" required />
+                <button type="button" onclick="removeLanguage(this)">Remove</button>
+
+            `;
+            container.appendChild(entry);
+
+            const dropdown = entry.querySelector(`select[name="languageName${index}"]`);
+            const newLanguageField = entry.querySelector(`input[name="newLanguageName${index}"]`);
+
+            dropdown.addEventListener("change", function () {
+                if (this.value === "Other") {
+                    newLanguageField.style.display = "inline";
+                } else {
+                    newLanguageField.style.display = "none";
+                }
+            });
+        }
+
+        // Remove a language entry from the form
+        function removeLanguage(button) {
+            const entry = button.parentNode;
+            entry.remove();
+        }
         // Form validation logic
         function validateForm(event) {
             event.preventDefault();
@@ -42,7 +93,7 @@
 
             languageScores.forEach((score, index) => {
                 const name = languageNames[index].value.trim();
-                if (name === "" || !/^[A-Za-z\s]+$/.test(name)) {
+                if (name === "" ) {
                     errorMessage += `Invalid language name at position ${index + 1}.\n`;
                     isValid = false;
                 }
@@ -99,7 +150,10 @@
         <input type="hidden" name="action" value="update">
         <label for="employeeId">Enter Employee ID to update:</label>
         <input type="text" id="employeeID" name="employeeID" required>
-        <button type="submit" class="button">Search</button>
+        <div class="form-buttons">
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button">Search</button>
+        </div>
     </form>
     <%
         String employeeId = request.getParameter("employeeID");
@@ -119,10 +173,10 @@
 
                 if (matchedEmployee != null) {
     %>
+    <div class="scrollable-container">
     <!-- Update Employee Form -->
     <form id="updateEmployeeForm" action="EmployeeServlet" method="post" onsubmit="validateForm(event)">
         <input type="hidden" name="action" value="updateEmployee">
-
         <fieldset>
             <legend>Employee Information</legend>
             <label for="employeeID">Employee ID:</label>
@@ -141,12 +195,36 @@
             <div id="languages-container">
                 <%
                     int languageIndex = 0;
+                    List<String> allLanguages = List.of("Java", "C#", "C++", "Python", "JavaScript", "Ruby", "Go", "Swift", "PHP",
+                            "TypeScript", "Kotlin", "Rust", "SQL", "Scala", "Perl", "R", "Objective-C",
+                            "Lua", "MATLAB", "Haskell", "Assembly", "Dart", "Elixir", "Groovy", "Clojure",
+                            "F#", "VHDL", "Verilog", "Erlang", "Julia", "Forth", "COBOL", "Fortran",
+                            "ActionScript", "Hack", "Shell", "Tcl", "Prolog", "OCaml", "Smalltalk",
+                            "PowerShell", "Awk", "PostScript", "Simula", "Ada", "Chapel", "Nim", "Crystal",
+                            "Zig", "Vala", "GDScript", "Racket", "Xojo", "Solidity", "Vimscript",
+                            "Mercury", "Eiffel", "AutoHotkey", "Delphi", "Fantom", "Lisp", "OpenCL",
+                            "CUDA", "Turing", "SAS", "LabVIEW", "Logo", "NATURAL", "ML", "ABAP", "Io",
+                            "Wolfram", "PureScript", "Algol", "Curl");
+
                     for (KnownLanguage lang : matchedEmployee.getKnownLanguages()) {
                 %>
                 <div class="language-entry">
-                    <label for="languageName<%= languageIndex %>">Language Name:</label>
-                    <input type="text" name="languageName<%= languageIndex %>" id="languageName<%= languageIndex %>"
-                           value="<%= lang.getLanguageName() %>" required>
+                    <label for="languageName<%= languageIndex %>">Language:</label>
+                    <select name="languageName<%= languageIndex %>" id="languageName<%= languageIndex %>">
+                        <%
+                            for (String language : allLanguages) {
+                        %>
+                        <option value="<%= language %>" <%= lang.getLanguageName().equals(language) ? "selected" : "" %>>
+                            <%= language %>
+                        </option>
+                        <% } %>
+                        <option value="Other" <%= !allLanguages.contains(lang.getLanguageName()) ? "selected" : "" %>>Other</option>
+                    </select>
+                    <input type="text" name="newLanguageName<%= languageIndex %>" id="newLanguageName<%= languageIndex %>"
+                           placeholder="Enter new language"
+                           style="display: <%= !allLanguages.contains(lang.getLanguageName()) ? "inline" : "none" %>;"
+                           value="<%= !allLanguages.contains(lang.getLanguageName()) ? lang.getLanguageName() : "" %>">
+
                     <label for="languageScore<%= languageIndex %>">Score:</label>
                     <input type="number" name="languageScore<%= languageIndex %>" id="languageScore<%= languageIndex %>"
                            value="<%= lang.getScoreOutof100() %>" min="0" max="100" required>
@@ -157,10 +235,22 @@
                 %>
             </div>
 
+
+            <br>
+            <div class="form-buttons">
+            <button type="button" class="back-button" onclick="addNewLanguage()">Add New Language</button>
+            </div>
+
             <!-- Hidden field for storing languages -->
             <input type="hidden" id="languages" name="languages">
 
-            <button type="submit" class="button">Update Employee</button>
+            <div class="form-buttons">
+                <!-- Back to Menu Button -->
+                <button type="button" class="back-button" onclick="window.location.href='index.jsp'">Back to Menu</button>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-button">Update</button>
+            </div>
         </fieldset>
     </form>
     <%
@@ -176,6 +266,7 @@
             }
         }
     %>
+    </div>
 </div>
 </body>
 </html>

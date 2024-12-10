@@ -8,18 +8,6 @@
     "scoreOutof100" : 50
   } ]
 }, {
-  "firstName" : "Yousef",
-  "lastName" : "Ehab",
-  "employeeID" : "7000",
-  "designation" : "Tester",
-  "languages" : [ {
-    "languageName" : "Java",
-    "scoreOutof100" : 70
-  }, {
-    "languageName" : "C++",
-    "scoreOutof100" : 100
-  } ]
-}, {
   "firstName" : "Ahmed",
   "lastName" : "Mohamed",
   "employeeID" : "8000",
@@ -38,9 +26,30 @@
   "firstName" : "Roaa",
   "lastName" : "Talat",
   "employeeID" : "2000",
+  "designation" : "Machine Learning Engineer",
+  "languages" : [ {
+    "languageName" : "Ruby",
+    "scoreOutof100" : 80
+  }, {
+    "languageName" : "PHP",
+    "scoreOutof100" : 90
+  }, {
+    "languageName" : "Go",
+    "scoreOutof100" : 10
+  } ]
+}, {
+  "firstName" : "Yousef",
+  "lastName" : "Ehab",
+  "employeeID" : "7000",
   "designation" : "Tester",
   "languages" : [ {
-    "languageName" : "Python",
-    "scoreOutof100" : 80
+    "languageName" : "JavaScript",
+    "scoreOutof100" : 90
+  }, {
+    "languageName" : "C++",
+    "scoreOutof100" : 100
+  }, {
+    "languageName" : "C#",
+    "scoreOutof100" : 100
   } ]
 } ]
