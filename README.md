@@ -71,12 +71,16 @@ This Java web application allows users to create, store, retrieve, search, and d
 
 ## 🛠 Technologies & Libraries Used
 🔹 **Java** (JDK 11+)  
+
 🔹 **DOM Parser** (Java XML Processing API) 
+
 🔹 **Apache Tomcat** (Web Server)  
+
 🔹 **CSS** for styling the interface  
 
 ---
 
 ## 🔮 Future Enhancements
 🔹 Improve the GUI design for better user experience.
+
 🔹 Implement database support (MySQL/PostgreSQL) for persistent storage.
