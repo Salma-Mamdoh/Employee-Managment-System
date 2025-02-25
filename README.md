@@ -1,35 +1,48 @@
-# Java Web Application: Student XML Management
+# Java Web Application: Employee Json Management
 
 ## 📖 Project Overview
 🎥 **Project Demonstration Video: 
 
 https://github.com/user-attachments/assets/7d22508a-6713-4afe-a912-5dee0ac1c1fc
 
-This Java web application allows users to create, store, retrieve, search, and delete student records using XML files. The program follows a structured XML format to manage student data efficiently.
+This Java web application allows users to create, store, retrieve, search, update, and delete employee records using JSON format. The program follows a structured JSON format to manage employee data efficiently.
 
 ### 🎯 Objectives:
-- Build an XML document to store student data.
-- Allow users to specify the number of students to enter.
-- Collect student information interactively.
-- Store student data in an XML file following a defined structure.
-- Implement search functionality by **FirstName** or **GPA**.
-- Allow users to delete a specific student record.
-- Ensure that if an XML file already exists, the application reads from it instead of creating a new file.
+- Read and parse a JSON array containing employee data.
+- Allow users to add new employees.
+- Implement search functionality by **EmployeeID** or **Designation**.
+- Enable users to delete specific employee records.
+- Update an employee’s designation.
+- Retrieve and sort employees proficient in Java with a score higher than the MinScore specified by the User.
 
 ---
 
-## 📊 XML Structure
-```xml
-<University>
-    <Student ID="20200134">
-        <FirstName>Ahmed</FirstName>
-        <LastName>Mohamed</LastName>
-        <Gender>Male</Gender>
-        <GPA>3.17</GPA>
-        <Level>4</Level>
-        <Address>Giza</Address>
-    </Student>
-</University>
+## 📊 JSON Structure
+```json
+[
+    {
+        "FirstName": "Sam",
+        "LastName": "Jackson",
+        "EmployeeID": 1000,
+        "Designation": "Manager",
+        "KnownLanguages": [
+            { "LanguageName": "Java", "ScoreOutof100": 90 },
+            { "LanguageName": "C#", "ScoreOutof100": 50 },
+            { "LanguageName": "C++", "ScoreOutof100": 80 }
+        ]
+    },
+    {
+        "FirstName": "John",
+        "LastName": "Adamo",
+        "EmployeeID": 2000,
+        "Designation": "Developer",
+        "KnownLanguages": [
+            { "LanguageName": "Perl", "ScoreOutof100": 30 },
+            { "LanguageName": "Java", "ScoreOutof100": 65 },
+            { "LanguageName": "C++", "ScoreOutof100": 70 }
+        ]
+    }
+]
 ```
 
 ---
@@ -37,50 +50,48 @@ This Java web application allows users to create, store, retrieve, search, and d
 ## 🛠 Features & Implementation
 ### ✅ Steps:
 
-1️⃣ **Build XML Document**
-   - Creates a structured XML file to store student data.
-   
-2️⃣ **User Input for Student Count**
-   - Asks the user to specify how many student records they want to add.
-   
-3️⃣ **Collect Student Data**
-   - Takes input for **ID, FirstName, LastName, Gender, GPA, Level, Address**.
-   
-4️⃣ **Store Data in XML File**
-   - Saves all student records in XML format, preserving structure.
-   
-5️⃣ **Search Functionality**
-   - Allows searching by **GPA** or **FirstName** and retrieves matching records.
-   
-6️⃣ **Delete a Student Record**
-   - Enables selecting and deleting a specific student entry from the XML file.
-   
-7️⃣ **File Persistence**
-   - Checks for an existing XML file and reads from it instead of creating a new file every time.
+1️⃣ **Read JSON Array**
+   - Load and parse employee data from a JSON file.
+
+2️⃣ **Add New Employee**
+   - Collect input for **FirstName, LastName, EmployeeID, Designation, KnownLanguages**.
+   - Append the new record to the JSON array.
+
+3️⃣ **Search Functionality**
+   - Search employees by **EmployeeID** or **Designation**.
+
+4️⃣ **Delete a Specific Employee Record**
+   - Remove an employee entry based on EmployeeID.
+
+5️⃣ **Update Employee Designation**
+   - Modify the designation of the employee with **EmployeeID = 2000** from **Developer** to **Team Leader**.
+
+6️⃣ **Retrieve and Sort Employees Proficient in Java**
+   - Identify employees with Java proficiency **(Score > 50)**.
+   - Sort results in ascending order based on Java score.
 
 ---
 
 ## 🚀 Key Takeaways
-✅ **Efficient data storage** using XML format.  
-✅ **User-friendly** interface for managing student records.  
-✅ **Robust search functionality** for GPA & FirstName queries.  
+✅ **Efficient data storage** using JSON format.  
+✅ **User-friendly** interface for managing employee records.  
+✅ **Robust search functionality** for EmployeeID & Designation queries.  
 ✅ **Data persistence** ensures no loss of records between program runs.  
-✅ **Easy record management** including deletion of specific entries.  
+✅ **Flexible and scalable** to accommodate future enhancements.  
 
 ---
 
 ## 🛠 Technologies & Libraries Used
 🔹 **Java** (JDK 11+)  
-
-🔹 **DOM Parser** (Java XML Processing API) 
-
+🔹 **JSON Processing Library** (Jackson / GSON)  
 🔹 **Apache Tomcat** (Web Server)  
-
 🔹 **CSS** for styling the interface  
 
 ---
 
 ## 🔮 Future Enhancements
-🔹 Improve the GUI design for better user experience.
+🔹 Improve the GUI design for a better user experience.  
+🔹 Implement database support (MySQL/PostgreSQL) for persistent storage.  
+🔹 Add authentication and authorization features.  
+🔹 Expose RESTful APIs for integration with other systems.  
 
-🔹 Implement database support (MySQL/PostgreSQL) for persistent storage.
