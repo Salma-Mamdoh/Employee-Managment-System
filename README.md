@@ -64,10 +64,10 @@ This Java web application allows users to create, store, retrieve, search, updat
    - Remove an employee entry based on EmployeeID.
 
 5️⃣ **Update Employee Designation**
-   - Modify the designation of the employee with **EmployeeID = 2000** from **Developer** to **Team Leader**.
+   - Example - Modify the designation of the employee with **EmployeeID = 2000** from **Developer** to **Team Leader**.
 
-6️⃣ **Retrieve and Sort Employees Proficient in Java**
-   - Identify employees with Java proficiency **(Score > 50)**.
+6️⃣ **Retrieve and Sort Employees Proficient in Any Language**
+   - Example - Identify employees with Java proficiency **(Score > 50)**.
    - Sort results in ascending order based on Java score.
 
 ---
